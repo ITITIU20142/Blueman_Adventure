@@ -1,8 +1,8 @@
-# Blueman_Adventure
+# Blueman Adventure
 ![BluemanAdventure](https://user-images.githubusercontent.com/88697918/170962965-ba8aa900-f737-48f9-b291-f8f050225b83.png)
 # Introduction
 - **Team name**: Legend of Bugs
-- **Team members**: 
+- **Team members**: <BR>
     Vinh Bao Phuc - ITITIU20127 
     <br>
     Tran Minh Huy - ITITIU20219

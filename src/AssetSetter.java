@@ -1,94 +1,132 @@
+import java.util.Objects;
+
 public class AssetSetter {
     GamePanel gp;
-    public AssetSetter(GamePanel gp){
-        this.gp = gp;
-    }
-    public void setobject(){
-        int mapNum = 1;
-        gp.obj[mapNum][0] = new OBJ_KEY(gp);
-        gp.obj[mapNum][0].worldX = 43 * gp.tileSize;
-        gp.obj[mapNum][0].worldY = 38 * gp.tileSize;
+    int MAP2;
+    int JingleJungle = 0;
 
-        gp.obj[mapNum][1] = new OBJ_DOOR(gp);
-        gp.obj[mapNum][1].worldX = 41 * gp.tileSize;
-        gp.obj[mapNum][1].worldY = 19 * gp.tileSize;
-
-        gp.obj[mapNum][2] = new OBJ_DOOR(gp);
-        gp.obj[mapNum][2].worldX = 53 * gp.tileSize;
-        gp.obj[mapNum][2].worldY = 52 * gp.tileSize;
-
-        gp.obj[mapNum][3] = new OBJ_DOOR(gp);
-        gp.obj[mapNum][3].worldX = 10 * gp.tileSize;
-        gp.obj[mapNum][3].worldY = 25 * gp.tileSize;
-
-        gp.obj[mapNum][4] = new OBJ_KEY(gp);
-        gp.obj[mapNum][4].worldX = 22 * gp.tileSize;
-        gp.obj[mapNum][4].worldY = 28 * gp.tileSize;
-
-        gp.obj[mapNum][5] = new OBJ_KEY(gp);
-        gp.obj[mapNum][5].worldX = 17 * gp.tileSize;
-        gp.obj[mapNum][5].worldY = 17 * gp.tileSize;
-
-        gp.obj[mapNum][6] = new OBJ_KEY(gp);
-        gp.obj[mapNum][6].worldX = 12 * gp.tileSize;
-        gp.obj[mapNum][6].worldY = 43 * gp.tileSize;
-
-        gp.obj[mapNum][7] = new OBJ_KEY(gp);
-        gp.obj[mapNum][7].worldX = 32 * gp.tileSize;
-        gp.obj[mapNum][7].worldY = 12 * gp.tileSize;
-
-        gp.obj[mapNum][8] = new OBJ_DOOR(gp);
-        gp.obj[mapNum][8].worldX = 24 * gp.tileSize;
-        gp.obj[mapNum][8].worldY = 8 * gp.tileSize;
+    public AssetSetter(GamePanel var1) {
+        this.gp = var1;
     }
 
-    public void setNPC(){
-        int mapNum = 1;
-        gp.npc[mapNum][0] = new NPC_OLDMAN(gp);
-        gp.npc[mapNum][0].worldX = gp.tileSize * 15;
-        gp.npc[mapNum][0].worldY = gp.tileSize * 15;
-
-        gp.npc[mapNum][1] = new NPC_OLDMAN(gp);
-        gp.npc[mapNum][1].worldX = gp.tileSize * 31;
-        gp.npc[mapNum][1].worldY = gp.tileSize * 12;
-
-        gp.npc[mapNum][2] = new NPC_OLDMAN(gp);
-        gp.npc[mapNum][2].worldX = gp.tileSize * 31;
-        gp.npc[mapNum][2].worldY = gp.tileSize * 37;
-
-        gp.npc[mapNum][3] = new NPC_OLDMAN(gp);
-        gp.npc[mapNum][3].worldX = gp.tileSize * 24;
-        gp.npc[mapNum][3].worldY = gp.tileSize * 27;
-
-        gp.npc[mapNum][4] = new NPC_OLDMAN(gp);
-        gp.npc[mapNum][4].worldX = gp.tileSize * 44;
-        gp.npc[mapNum][4].worldY = gp.tileSize * 18;
+    public void setobject() {
+        this.gp.obj[this.MAP2][0] = new OBJ_DOOR(this.gp);
+        Entity var10000 = this.gp.obj[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 41 * 48;
+        var10000 = this.gp.obj[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 19 * 48;
+        this.gp.obj[this.MAP2][1] = new OBJ_DOOR(this.gp);
+        var10000 = this.gp.obj[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 53 * 48;
+        var10000 = this.gp.obj[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 52 * 48;
+        this.gp.obj[this.MAP2][2] = new OBJ_DOOR(this.gp);
+        var10000 = this.gp.obj[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 10 * 48;
+        var10000 = this.gp.obj[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 25 * 48;
+        this.gp.obj[this.MAP2][3] = new OBJ_DOOR(this.gp);
+        var10000 = this.gp.obj[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 24 * 48;
+        var10000 = this.gp.obj[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 8 * 48;
     }
 
-    public void setMonster(){
-        int mapNum = 1;
-        gp.monster[mapNum][0] = new MON(gp);
-        gp.monster[mapNum][0].worldX = gp.tileSize * 17;
-        gp.monster[mapNum][0].worldY = gp.tileSize * 7;
+    public void setNPC() {
+        this.gp.npc[this.MAP2][0] = new NPC_OLDMAN(this.gp);
+        Entity var10000 = this.gp.npc[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 15;
+        var10000 = this.gp.npc[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 15;
+        this.gp.npc[this.MAP2][1] = new NPC_OLDMAN(this.gp);
+        var10000 = this.gp.npc[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 31;
+        var10000 = this.gp.npc[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 12;
+        this.gp.npc[this.MAP2][2] = new NPC_OLDMAN(this.gp);
+        var10000 = this.gp.npc[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 31;
+        var10000 = this.gp.npc[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 37;
+        this.gp.npc[this.MAP2][3] = new NPC_OLDMAN(this.gp);
+        var10000 = this.gp.npc[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 24;
+        var10000 = this.gp.npc[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 27;
+        this.gp.npc[this.MAP2][4] = new NPC_OLDMAN(this.gp);
+        var10000 = this.gp.npc[this.MAP2][4];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 44;
+        var10000 = this.gp.npc[this.MAP2][4];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 19;
+    }
 
-        gp.monster[mapNum][1] = new MON(gp);
-        gp.monster[mapNum][1].worldX = gp.tileSize * 10;
-        gp.monster[mapNum][1].worldY = gp.tileSize * 16;
-        
-        gp.monster[mapNum][2] = new MON(gp);
-        gp.monster[mapNum][2].worldX = gp.tileSize * 44;
-        gp.monster[mapNum][2].worldY = gp.tileSize * 30;
-
-        gp.monster[mapNum][3] = new MON(gp);
-        gp.monster[mapNum][3].worldX = gp.tileSize * 11;
-        gp.monster[mapNum][3].worldY = gp.tileSize * 39;
-
-        gp.monster[mapNum][4] = new MON(gp);
-        gp.monster[mapNum][4].worldX = gp.tileSize * 33;
-        gp.monster[mapNum][4].worldY = gp.tileSize * 36;
-
-        gp.monster[mapNum][5] = new MON(gp);
-        gp.monster[mapNum][5].worldX = gp.tileSize * 11;
-        gp.monster[mapNum][5].worldY = gp.tileSize * 39;
+    public void setMonster() {
+        this.gp.monster[this.JingleJungle][0] = new MON2(this.gp);
+        Entity var10000 = this.gp.monster[this.JingleJungle][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 15;
+        var10000 = this.gp.monster[this.JingleJungle][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 11;
+        this.gp.monster[this.MAP2][0] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 17;
+        var10000 = this.gp.monster[this.MAP2][0];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 7;
+        this.gp.monster[this.MAP2][1] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 10;
+        var10000 = this.gp.monster[this.MAP2][1];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 16;
+        this.gp.monster[this.MAP2][2] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 44;
+        var10000 = this.gp.monster[this.MAP2][2];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 30;
+        this.gp.monster[this.MAP2][3] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 11;
+        var10000 = this.gp.monster[this.MAP2][3];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 39;
+        this.gp.monster[this.MAP2][4] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][4];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 33;
+        var10000 = this.gp.monster[this.MAP2][4];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 36;
+        this.gp.monster[this.MAP2][5] = new MON(this.gp);
+        var10000 = this.gp.monster[this.MAP2][5];
+        Objects.requireNonNull(this.gp);
+        var10000.worldX = 48 * 11;
+        var10000 = this.gp.monster[this.MAP2][5];
+        Objects.requireNonNull(this.gp);
+        var10000.worldY = 48 * 39;
     }
 }

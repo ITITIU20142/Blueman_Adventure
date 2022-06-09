@@ -6,82 +6,138 @@ import java.io.*;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum [][][];
-    public TileManager(GamePanel gp) {
-        this.gp = gp;
-        tile = new Tile[50];
-        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
-        getTileImage();
-        loadMap("JingleJungle.txt", 0);
-        loadMap("MAP2.txt" ,1);
+    public int[][][] mapTileNum;
+
+    public TileManager(GamePanel var1) {
+        this.gp = var1;
+        this.tile = new Tile[50];
+        Objects.requireNonNull(var1);
+        Objects.requireNonNull(var1);
+        Objects.requireNonNull(var1);
+        this.mapTileNum = new int[10][54][50];
+        this.getTileImage();
+        this.loadMap("JingleJungle.txt", 0);
+        this.loadMap("MAP2.txt", 1);
     }
+
     public void getTileImage() {
-        setup(0, "OBJ_GROVE_2", false);
-        setup(1, "OBJ_WALL", true);
-        setup(2, "OBJ_WATER_2", true);
-        setup(3, "OBJ_GROVE_2", false);
-        setup(4, "OBJ_TREE_2", true);
-        setup(5, "OBJ_GRASS_2", false);
+        this.setup(0, "OBJ_STONE_2", true);
+        this.setup(1, "OBJ_WALL", true);
+        this.setup(2, "OBJ_WATER_2", true);
+        this.setup(3, "OBJ_GROVE_2", false);
+        this.setup(4, "OBJ_TREE_2", true);
+        this.setup(5, "OBJ_GRASS_2", false);
     }
-    public void setup(int index, String imageName, boolean collision){
-        UtilityTool uTool = new UtilityTool();
-        try{
-            tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream(imageName + ".png"));
-            tile[index].image = uTool.scaledImage(tile[index].image, gp.tileSize, gp.tileSize);
-            tile[index].collision = collision;
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void loadMap(String filePath, int map) {
+
+    public void setup(int var1, String var2, boolean var3) {
+        UtilityTool var4 = new UtilityTool();
+
         try {
-            InputStream is = getClass().getResourceAsStream(filePath);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            int col = 0;
-            int row = 0;
-            while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
-                String line = br.readLine();
-                while(col < gp.maxWorldCol) {
-                    String numbers[] = line.split(" ");
-                    int num = Integer.parseInt(numbers[col], 8);
-                    mapTileNum[map][col][row] = num;
-                    col++;
-                }
-                if(col == gp.maxWorldCol) {
-                    col = 0; row++;
-                }   
-            }
-            br.close();
-        } catch(Exception e) {
-            e.printStackTrace();
+            this.tile[var1] = new Tile();
+            this.tile[var1].image = ImageIO.read(this.getClass().getResourceAsStream(var2 + ".png"));
+            Tile var10000 = this.tile[var1];
+            BufferedImage var10002 = this.tile[var1].image;
+            Objects.requireNonNull(this.gp);
+            Objects.requireNonNull(this.gp);
+            var10000.image = var4.scaledImage(var10002, 48, 48);
+            this.tile[var1].collision = var3;
+        } catch (IOException var6) {
+            var6.printStackTrace();
         }
+
     }
-    public void draw(Graphics2D g2) {
-        int worldCol = 0;
-        int worldRow = 0;
-        // int x = 0;
-        // int y = 0;
-        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
-            if(worldX  + gp.tileSize > gp.player.worldX - gp.player.screenX && 
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+    public void loadMap(String var1, int var2) {
+        try {
+            InputStream var3 = this.getClass().getResourceAsStream(var1);
+            BufferedReader var4 = new BufferedReader(new InputStreamReader(var3));
+            int var5 = 0;
+            int var6 = 0;
+
+            while(true) {
+                Objects.requireNonNull(this.gp);
+                if (var5 >= 54) {
+                    break;
+                }
+
+                Objects.requireNonNull(this.gp);
+                if (var6 >= 50) {
+                    break;
+                }
+
+                String var7 = var4.readLine();
+
+                while(true) {
+                    Objects.requireNonNull(this.gp);
+                    if (var5 >= 54) {
+                        Objects.requireNonNull(this.gp);
+                        if (var5 == 54) {
+                            var5 = 0;
+                            ++var6;
+                        }
+                        break;
+                    }
+
+                    String[] var8 = var7.split(" ");
+                    int var9 = Integer.parseInt(var8[var5], 8);
+                    this.mapTileNum[var2][var5][var6] = var9;
+                    ++var5;
+                }
             }
-            worldCol++;
-            // x += gp.tileSize;
-            if(worldCol == gp.maxWorldCol) {
-                worldCol = 0; 
-                // x = 0;
-                worldRow++; 
-                // y += gp.tileSize;
+
+            var4.close();
+        } catch (Exception var10) {
+            var10.printStackTrace();
+        }
+
+    }
+
+    public void draw(Graphics2D var1) {
+        int var2 = 0;
+        int var3 = 0;
+
+        while(true) {
+            Objects.requireNonNull(this.gp);
+            if (var2 >= 54) {
+                break;
+            }
+
+            Objects.requireNonNull(this.gp);
+            if (var3 >= 50) {
+                break;
+            }
+
+            int var4 = this.mapTileNum[this.gp.currentMap][var2][var3];
+            Objects.requireNonNull(this.gp);
+            int var5 = var2 * 48;
+            Objects.requireNonNull(this.gp);
+            int var6 = var3 * 48;
+            int var7 = var5 - this.gp.player.worldX + this.gp.player.screenX;
+            int var8 = var6 - this.gp.player.worldY + this.gp.player.screenY;
+            Objects.requireNonNull(this.gp);
+            if (var5 + 48 > this.gp.player.worldX - this.gp.player.screenX) {
+                Objects.requireNonNull(this.gp);
+                if (var5 - 48 < this.gp.player.worldX + this.gp.player.screenX) {
+                    Objects.requireNonNull(this.gp);
+                    if (var6 + 48 > this.gp.player.worldY - this.gp.player.screenY) {
+                        Objects.requireNonNull(this.gp);
+                        if (var6 - 48 < this.gp.player.worldY + this.gp.player.screenY) {
+                            BufferedImage var10001 = this.tile[var4].image;
+                            Objects.requireNonNull(this.gp);
+                            Objects.requireNonNull(this.gp);
+                            var1.drawImage(var10001, var7, var8, 48, 48, (ImageObserver)null);
+                        }
+                    }
+                }
+            }
+
+            ++var2;
+            Objects.requireNonNull(this.gp);
+            if (var2 == 54) {
+                var2 = 0;
+                ++var3;
             }
         }
+
     }
 }
