@@ -1,303 +1,229 @@
-import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.KeyEvent;
 
 public class KeyHandler implements KeyListener {
+
     GamePanel gp;
-    public boolean upPressed;
-    public boolean downPressed;
-    public boolean leftPressed;
-    public boolean rightPressed;
-    public boolean enterPressed;
-    public boolean monsterPressed;
-    public boolean shotPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, monsterPressed, shotPressed;
     boolean checkDrawTime = false;
-
-    public KeyHandler(GamePanel var1) {
-        this.gp = var1;
+    public KeyHandler(GamePanel gp){
+        this.gp = gp;
     }
-
-    public void keyTyped(KeyEvent var1) {
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
-
-    public void keyPressed(KeyEvent var1) {
-        int var2 = var1.getKeyCode();
-        int var10000 = this.gp.gameState;
-        Objects.requireNonNull(this.gp);
-        if (var10000 == 0) {
-            this.titleState(var2);
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        //TITLE STATE
+        if(gp.gameState == gp.titleState){
+            titleState(code);
         }
-
-        var10000 = this.gp.gameState;
-        Objects.requireNonNull(this.gp);
-        if (var10000 == 1) {
-            this.playState(var2);
-        } else {
-            var10000 = this.gp.gameState;
-            Objects.requireNonNull(this.gp);
-            if (var10000 == 2) {
-                this.pauseState(var2);
-            } else {
-                var10000 = this.gp.gameState;
-                Objects.requireNonNull(this.gp);
-                if (var10000 == 3) {
-                    this.dialogueState(var2);
-                } else {
-                    var10000 = this.gp.gameState;
-                    Objects.requireNonNull(this.gp);
-                    if (var10000 == 7) {
-                        this.dialogueMonsterState(var2);
-                    } else {
-                        var10000 = this.gp.gameState;
-                        Objects.requireNonNull(this.gp);
-                        if (var10000 == 4) {
-                            this.characterState(var2);
-                        } else {
-                            var10000 = this.gp.gameState;
-                            Objects.requireNonNull(this.gp);
-                            if (var10000 == 5) {
-                                this.optionState(var2);
-                            } else {
-                                var10000 = this.gp.gameState;
-                                Objects.requireNonNull(this.gp);
-                                if (var10000 == 6) {
-                                    this.gameOverState(var2);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        //PLAY STATE
+        if(gp.gameState == gp.playState){
+            playState(code);
         }
-
-    }
-
-    public void optionState(int var1) {
-        if (var1 == 27) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 1;
+        //PAUSE STATE
+        else if(gp.gameState == gp.gamePause){   
+            pauseState(code);
         }
-
-        if (var1 == 10) {
-            this.enterPressed = true;
+        //DISPLAY STATE
+        else if(gp.gameState == gp.dialogueState){
+            dialogueState(code);
         }
-
-        byte var2 = 0;
-        switch(this.gp.ui.subState) {
-        case 0:
-            var2 = 5;
-        default:
-            if (var1 == 87) {
-                --this.gp.ui.commandNum;
-                if (this.gp.ui.commandNum < 0) {
-                    this.gp.ui.commandNum = var2;
-                }
-            }
-
-            if (var1 == 83) {
-                ++this.gp.ui.commandNum;
-                if (this.gp.ui.commandNum > var2) {
-                    this.gp.ui.commandNum = 0;
-                }
-            }
-
+        //MONSTER STATE
+        else if(gp.gameState == gp.dialogueMonsterState){
+            dialogueMonsterState(code);
+        }
+        //CHARACTER STATE
+        else if(gp.gameState == gp.characterState){
+            characterState(code);
+        }
+        //OPTION STATE
+        else if(gp.gameState == gp.optionState){
+            optionState(code);
+        }
+        //GAME OVER STATE
+        else if(gp.gameState == gp.gameOverState){
+            gameOverState(code);
         }
     }
 
-    public void gameOverState(int var1) {
-        if (var1 == 87 || var1 == 38) {
-            --this.gp.ui.commandNum;
-            if (this.gp.ui.commandNum < 0) {
-                this.gp.ui.commandNum = 1;
+    public void optionState(int code) {
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+
+        int maxCommandNum = 0;
+        switch(gp.ui.subState) {
+            case 0: maxCommandNum = 5;
+        }
+
+        if(code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            // gp.playSE(9); // Sound
+            if(gp.ui.commandNum < 0) {
+                gp.ui.commandNum = maxCommandNum;
             }
         }
 
-        if (var1 == 83 || var1 == 40) {
-            ++this.gp.ui.commandNum;
-            if (this.gp.ui.commandNum > 1) {
-                this.gp.ui.commandNum = 0;
+        if(code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            // gp.playSE(9); // Sound
+            if(gp.ui.commandNum > maxCommandNum) {
+                gp.ui.commandNum = 0;
             }
         }
-
-        if (var1 == 10) {
-            GamePanel var2;
-            if (this.gp.ui.commandNum == 0) {
-                var2 = this.gp;
-                Objects.requireNonNull(this.gp);
-                var2.gameState = 1;
-                this.gp.retry();
-            } else if (this.gp.ui.commandNum == 1) {
-                var2 = this.gp;
-                Objects.requireNonNull(this.gp);
-                var2.gameState = 0;
-                this.gp.restart();
-            }
-        }
-
     }
 
-    public void titleState(int var1) {
-        if (var1 == 87 || var1 == 38) {
-            --this.gp.ui.commandNum;
-            if (this.gp.ui.commandNum < 0) {
-                this.gp.ui.commandNum = 2;
+    public void gameOverState(int code) {
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
             }
         }
-
-        if (var1 == 83 || var1 == 40) {
-            ++this.gp.ui.commandNum;
-            if (this.gp.ui.commandNum > 2) {
-                this.gp.ui.commandNum = 0;
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
             }
         }
-
-        if (var1 == 10) {
-            if (this.gp.ui.commandNum == 0) {
-                GamePanel var2 = this.gp;
-                Objects.requireNonNull(this.gp);
-                var2.gameState = 1;
+        if(code == KeyEvent.VK_ENTER) {
+            if(gp.ui.commandNum == 0) {
+                gp.gameState = gp.playState;
+                gp.retry();
             }
-
-            if (this.gp.ui.commandNum == 1) {
+            else if(gp.ui.commandNum == 1) {
+                gp.gameState = gp.titleState;
+                gp.restart();
             }
+        }
+    }
 
-            if (this.gp.ui.commandNum == 2) {
+    public void titleState(int code){
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gp.ui.commandNum--;
+            if(gp.ui.commandNum < 0){
+                gp.ui.commandNum = 1;
+            }
+        }
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > 1){
+                gp.ui.commandNum = 0;
+            }
+        }
+        if(code == KeyEvent.VK_ENTER){
+            if(gp.ui.commandNum == 0){
+                gp.gameState = gp.playState;
+            }
+            if(gp.ui.commandNum == 1){
                 System.exit(0);
             }
         }
-
     }
-
-    public void playState(int var1) {
-        if (var1 == 87 || var1 == 38) {
-            this.upPressed = true;
+    public void playState(int code){
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            upPressed = true;
         }
-
-        if (var1 == 83 || var1 == 40) {
-            this.downPressed = true;
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            downPressed = true;
         }
-
-        if (var1 == 65 || var1 == 37) {
-            this.leftPressed = true;
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            leftPressed = true;
         }
-
-        if (var1 == 68 || var1 == 39) {
-            this.rightPressed = true;
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            rightPressed = true;
         }
-
-        GamePanel var10000;
-        if (var1 == 80) {
-            var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 2;
+        if(code == KeyEvent.VK_P){
+            gp.gameState = gp.gamePause;
         }
-
-        if (var1 == 67) {
-            var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 4;
+        if(code == KeyEvent.VK_C){
+            gp.gameState = gp.characterState;
         }
-
-        if (var1 == 69) {
-            this.enterPressed = true;
+        if(code == KeyEvent.VK_E){
+            enterPressed = true;
         }
-
-        if (var1 == 82) {
-            this.monsterPressed = true;
+        if(code == KeyEvent.VK_R){
+            monsterPressed = true;
         }
-
-        if (var1 == 70) {
-            this.shotPressed = true;
+        if(code == KeyEvent.VK_F){
+            shotPressed = true;
         }
-
-        if (var1 == 27) {
-            var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 5;
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.optionState;
         }
-
-        if (var1 == 84) {
-            if (!this.checkDrawTime) {
-                this.checkDrawTime = true;
-            } else if (this.checkDrawTime) {
-                this.checkDrawTime = false;
+        //DEBUG 
+        if(code == KeyEvent.VK_T){
+            if(checkDrawTime == false) {
+                checkDrawTime = true;
+            }else if(checkDrawTime == true){
+                checkDrawTime = false;
             }
         }
-
     }
-
-    public void pauseState(int var1) {
-        if (var1 == 80 || var1 == 27) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 1;
+    public void pauseState(int code){
+        if(code == KeyEvent.VK_P || code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
         }
-
     }
-
-    public void dialogueState(int var1) {
-        if (var1 == 10) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 1;
+    public void dialogueState(int code){
+        if(code == KeyEvent.VK_ENTER){
+            gp.gameState = gp.playState;
         }
-
     }
-
-    public void dialogueMonsterState(int var1) {
-        if (var1 == 10) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 1;
+    public void dialogueMonsterState(int code){
+        if(code == KeyEvent.VK_ENTER){
+            gp.gameState = gp.playState;
         }
-
     }
-
-    public void characterState(int var1) {
-        if (var1 == 67) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 1;
+    public void characterState(int code){
+        if(code == KeyEvent.VK_C){
+            gp.gameState = gp.playState;
         }
-
-        if ((var1 == 87 || var1 == 38) && this.gp.ui.slotRow != 0) {
-            --this.gp.ui.slotRow;
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+            if(gp.ui.slotRow != 0){
+                gp.ui.slotRow--;
+            }
         }
-
-        if ((var1 == 65 || var1 == 37) && this.gp.ui.slotCol != 0) {
-            --this.gp.ui.slotCol;
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){
+            if(gp.ui.slotCol != 0){
+                gp.ui.slotCol--;
+            }
         }
-
-        if ((var1 == 83 || var1 == 40) && this.gp.ui.slotRow != 3) {
-            ++this.gp.ui.slotRow;
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+            if(gp.ui.slotRow != 3){
+                gp.ui.slotRow++;
+            }
         }
-
-        if ((var1 == 68 || var1 == 39) && this.gp.ui.slotCol != 4) {
-            ++this.gp.ui.slotCol;
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){
+            if(gp.ui.slotCol != 4){
+                gp.ui.slotCol++;
+            }
         }
-
     }
+    @Override
+    public void keyReleased(KeyEvent e) {
 
-    public void keyReleased(KeyEvent var1) {
-        int var2 = var1.getKeyCode();
-        if (var2 == 87 || var2 == 38) {
-            this.upPressed = false;
+        int code = e.getKeyCode();
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            upPressed = false;
         }
-
-        if (var2 == 83 || var2 == 40) {
-            this.downPressed = false;
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            downPressed = false;
         }
-
-        if (var2 == 65 || var2 == 37) {
-            this.leftPressed = false;
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            leftPressed = false;
         }
-
-        if (var2 == 68 || var2 == 39) {
-            this.rightPressed = false;
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            rightPressed = false;
         }
-
-        if (var2 == 70) {
-            this.shotPressed = false;
+        if(code == KeyEvent.VK_F){
+            shotPressed = false;
         }
-
     }
 }

@@ -1,392 +1,280 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
-import javax.imageio.ImageIO;
+import java.awt.Rectangle;
+import java.awt.Graphics2D;
 
 public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    public ArrayList<Entity> inventory = new ArrayList();
+    public ArrayList<Entity> inventory = new ArrayList<>();
     public final int maxInventorySize = 20;
     int standCount = 0;
     int hasKey = 0;
 
-    public Player(GamePanel var1, KeyHandler var2) {
-        super(var1);
-        this.keyH = var2;
-        Objects.requireNonNull(var1);
-        int var10001 = 768 / 2;
-        Objects.requireNonNull(var1);
-        this.screenX = var10001 - 48 / 2;
-        Objects.requireNonNull(var1);
-        var10001 = 576 / 2;
-        Objects.requireNonNull(var1);
-        this.screenY = var10001 - 48 / 2;
-        this.solidArea = new Rectangle();
-        this.solidArea.x = 8;
-        this.solidArea.y = 16;
-        this.solidAreaDefaultX = this.solidArea.x;
-        this.solidAreaDefaultY = this.solidArea.y;
-        this.solidArea.width = 30;
-        this.solidArea.height = 30;
-        this.setDefaultValues();
-        this.getPlayerImage();
-        this.setItems();
+    public Player(GamePanel gp, KeyHandler keyH) {
+        super (gp);
+        this.keyH = keyH;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);    
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 30;
+        solidArea.height = 30;
+        setDefaultValues();
+        getPlayerImage();
+        setItems();
     }
-
     public void setDefaultValues() {
-        Objects.requireNonNull(this.gp);
-        this.worldX = 48 * 42;
-        Objects.requireNonNull(this.gp);
-        this.worldY = 48 * 42;
-        this.speed = 4;
-        this.direction = "right";
-        this.level = 1;
-        this.maxLife = 6;
-        this.life = this.maxLife;
-        this.strength = 1;
-        this.dexterity = 1;
-        this.currentWeapon = new OBJ_WEAPON_NORMAL(this.gp);
-        this.currentShield = new OBJ_SHIELD_WOOD(this.gp);
-        this.currentKey = new OBJ_KEY(this.gp);
-        this.projectile = new OBJ_FIREBALL(this.gp);
+        // worldX = gp.tileSize * 42;
+        // worldY = gp.tileSize * 42;
+        worldX = gp.tileSize * 9;
+        worldY = gp.tileSize * 9;
+        speed = 4;
+        direction = "right"; 
+        //PLAYER STATUS.
+        level = 1;
+        maxLife = 6;
+        life = maxLife;
+        strength = 1;
+        dexterity = 1;
+        currentWeapon = new OBJ_WEAPON_NORMAL(gp);
+        currentShield = new OBJ_SHIELD_WOOD(gp);
+        currentKey = new OBJ_KEY(gp);
+        projectile = new OBJ_FIREBALL(gp);
     }
-
     public void setDefaultPoisitionns() {
-        Objects.requireNonNull(this.gp);
-        this.worldX = 48 * 42;
-        Objects.requireNonNull(this.gp);
-        this.worldY = 48 * 42;
-        this.direction = "up";
+        // worldX = gp.tileSize * 42;
+        // worldY = gp.tileSize * 42;
+        worldX = gp.tileSize * 42;
+        worldY = gp.tileSize * 42;
+        direction = "up";
     }
-
     public void restoreLifeAndMan() {
-        this.life = this.maxLife;
-        this.invincible = false;
+        life = maxLife;
+        invincible = false;
     }
-
-    public void setItems() {
-        this.inventory.clear();
-        this.inventory.add(this.currentWeapon);
-        this.inventory.add(this.currentShield);
+    public void setItems(){
+        inventory.clear();
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
     }
-
-    public int getAttack() {
-        return this.attack = this.strength;
+    public int getAttack(){
+        return attack = strength;
     }
-
-    public int getDefense() {
-        return this.defense = this.dexterity * this.currentWeapon.defenseValue;
+    public int getDefense(){
+        return defense = dexterity * currentWeapon.defenseValue;
     }
-
     public void getPlayerImage() {
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.up1 = this.setup("player_up_1", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.up2 = this.setup("player_up_2", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.down1 = this.setup("player_down_1", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.down2 = this.setup("player_down_2", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.left1 = this.setup("player_left_1", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.left2 = this.setup("player_left_2", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.right1 = this.setup("player_right_1", 48, 48);
-        Objects.requireNonNull(this.gp);
-        Objects.requireNonNull(this.gp);
-        this.right2 = this.setup("player_right_2", 48, 48);
+        up1 = setup("player_up_1", gp.tileSize, gp.tileSize);
+        up2 = setup("player_up_2", gp.tileSize, gp.tileSize);
+        down1 = setup("player_down_1", gp.tileSize, gp.tileSize);
+        down2 = setup("player_down_2", gp.tileSize, gp.tileSize);
+        left1 = setup("player_left_1", gp.tileSize, gp.tileSize);
+        left2 = setup("player_left_2", gp.tileSize, gp.tileSize);
+        right1 = setup("player_right_1", gp.tileSize, gp.tileSize);
+        right2 = setup("player_right_2", gp.tileSize, gp.tileSize);
     }
 
-    public BufferedImage setup(String var1) {
-        UtilityTool var2 = new UtilityTool();
-        BufferedImage var3 = null;
-
-        try {
-            var3 = ImageIO.read(this.getClass().getResourceAsStream(var1 + ".png"));
-            Objects.requireNonNull(this.gp);
-            Objects.requireNonNull(this.gp);
-            var3 = var2.scaledImage(var3, 48, 48);
-        } catch (IOException var5) {
-            var5.printStackTrace();
+    public BufferedImage setup(String imageName){
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(getClass().getResourceAsStream(imageName + ".png"));
+            image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
+        }catch (IOException e){
+            e.printStackTrace();
         }
-
-        return var3;
+        return image; 
     }
-
     public void update() {
-        if (this.keyH.upPressed || this.keyH.downPressed || this.keyH.leftPressed || this.keyH.rightPressed) {
-            if (this.keyH.upPressed) {
-                this.direction = "up";
-            } else if (this.keyH.downPressed) {
-                this.direction = "down";
-            } else if (this.keyH.leftPressed) {
-                this.direction = "left";
-            } else if (this.keyH.rightPressed) {
-                this.direction = "right";
+        if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true){
+            if(keyH.upPressed == true) {
+                direction = "up";
             }
-
-            this.collision = false;
-            this.gp.cChecker.checkTile(this);
-            int var1 = this.gp.cChecker.checkObject(this, true);
-            this.pickUpObject(var1);
-            int var2 = this.gp.cChecker.checkEntity(this, this.gp.npc);
-            this.interactNPC(var2);
-            int var3 = this.gp.cChecker.checkEntity(this, this.gp.monster);
-            this.interactMonster(var3);
-            this.damageMonster(var3, this.attack);
-            this.gp.eHandler.checkEvent();
-            if (!this.collision) {
-                String var4 = this.direction;
-                byte var5 = -1;
-                switch(var4.hashCode()) {
-                case 3739:
-                    if (var4.equals("up")) {
-                        var5 = 0;
-                    }
-                    break;
-                case 3089570:
-                    if (var4.equals("down")) {
-                        var5 = 1;
-                    }
-                    break;
-                case 3317767:
-                    if (var4.equals("left")) {
-                        var5 = 2;
-                    }
-                    break;
-                case 108511772:
-                    if (var4.equals("right")) {
-                        var5 = 3;
-                    }
-                }
-
-                switch(var5) {
-                case 0:
-                    this.worldY -= this.speed;
-                    break;
-                case 1:
-                    this.worldY += this.speed;
-                    break;
-                case 2:
-                    this.worldX -= this.speed;
-                    break;
-                case 3:
-                    this.worldX += this.speed;
+            else if(keyH.downPressed == true) {
+                direction = "down";
+            }
+            else if(keyH.leftPressed == true) {
+                direction = "left";
+            }
+            else if(keyH.rightPressed == true) {
+                direction = "right";
+            }
+            // CHECK TILE COLLISION
+            collision = false;
+            gp.cChecker.checkTile(this);
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            // int chestIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+            // pickUpObject(chestIndex);
+            //CHECK NPC COLLISION
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+            //CHECK MONSTER COLLISION
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            interactMonster(monsterIndex);
+            damageMonster(monsterIndex, attack);
+            //CHECK EVENT
+            gp.eHandler.checkEvent();
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(collision == false) {
+                switch(direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed;break;
+                    case "right": worldX += speed; break;
                 }
             }
-
-            ++this.spriteCounter;
-            if (this.spriteCounter > 12) {
-                if (this.spriteNum == 1) {
-                    this.spriteNum = 2;
-                } else if (this.spriteNum == 2) {
-                    this.spriteNum = 1;
+            spriteCounter++;
+            if(spriteCounter > 12){
+                if(spriteNum == 1){
+                    spriteNum = 2;
                 }
-
-                this.spriteCounter = 0;
+                else if(spriteNum == 2){
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
         }
-
-        if (this.gp.keyH.shotPressed && !this.projectile.alive) {
-            this.projectile.set(this.worldX, this.worldY, this.direction, true, this);
-            this.gp.projectileList.add(this.projectile);
+        if(gp.keyH.shotPressed == true && projectile.alive == false){
+            projectile.set(worldX, worldY, direction, true, this);
+            gp.projectileList.add(projectile);
         }
-
-        if (this.invincible) {
-            ++this.invincibleCounter;
-            if (this.invincibleCounter > 60) {
-                this.invincible = false;
-                this.invincibleCounter = 0;
+        if(invincible == true){
+            invincibleCounter++;
+            if(invincibleCounter > 60){
+                invincible = false;
+                invincibleCounter = 0;
             }
         }
-
-        if (this.life <= 0) {
-            GamePanel var10000 = this.gp;
-            Objects.requireNonNull(this.gp);
-            var10000.gameState = 6;
+        if(life <= 0){
+            gp.gameState = gp.gameOverState;
         }
-
     }
-
-    public void pickUpObject(int var1) {
-        if (var1 != 999) {
-            String var2 = this.gp.obj[this.gp.currentMap][var1].name;
-            byte var4 = -1;
-            switch(var2.hashCode()) {
-            case 75327:
-                if (var2.equals("Key")) {
-                    var4 = 0;
+    public void pickUpObject(int i){
+        if(i != 999){
+            String objectName = gp.obj[gp.currentMap][i].name;
+            // String chestName = gp.chest[gp.currentMap][i].name;
+            // gp.obj[gp.currentMap][i].type == 1
+            //INVENTORY ITEMS
+            switch(objectName){
+                case "Key":
+                    hasKey++;
+                    inventory.add(currentKey);
+                    gp.obj[gp.currentMap][i] = null;
+                    gp.ui.showMessage("You got a key!");
+                break;
+                case "Door":
+                    if(hasKey > 0){
+                        gp.obj[gp.currentMap][i] = null;
+                        hasKey--;
+                        inventory.remove(currentKey);
+                        gp.ui.showMessage("You opened the door!");
+                    }
+                    else {
+                        gp.ui.showMessage("You need a key to open!");
+                    }
+                break;
+                // case "Chest":
+                //     gp.ui.gameFinished = true;
+                // break;
+            }
+            // switch(chestName){
+            //     case "Chest":
+            //         gp.ui.gameFinished = true;
+            //     break;
+            // }
+        }
+    }
+    public void interactMonster(int i){
+        if(i != 999){
+            if(gp.keyH.monsterPressed == true){
+                gp.gameState = gp.dialogueMonsterState;
+                gp.monster[gp.currentMap][i].monsterSpeak();
+            }
+            gp.keyH.monsterPressed = false;
+        }
+        if(i != 999){
+            if(invincible == false){
+                life -= 1;
+                invincible = true;
+            }
+        }
+    }
+    public void damageMonster(int i, int attack){
+        if(i != 999){
+            if(gp.monster[gp.currentMap][i].invincible == false){
+                int damage = attack - gp.monster[gp.currentMap][i].defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.monster[gp.currentMap][i].life -= damage;
+                gp.ui.showMessage(damage + "damage!");
+                gp.monster[gp.currentMap][i].invincible = true;
+                if(gp.monster[gp.currentMap][i].life <= 0){
+                    gp.monster[gp.currentMap][i].dying = true;
+                    gp.ui.showMessage("Killed the " + gp.monster[gp.currentMap][i].name + "!");
+                }
+            }
+        }
+    }
+    public void interactNPC(int i){
+        if(i != 999){
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.dialogueState;
+                gp.npc[gp.currentMap][i].speak();
+            }
+            gp.keyH.enterPressed = false;
+        }
+    }
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        switch(direction){
+            case "up":
+                if(spriteNum == 1){
+                    image = up1;
+                }
+                if(spriteNum == 2){
+                    image = up2;
                 }
                 break;
-            case 2136014:
-                if (var2.equals("Door")) {
-                    var4 = 1;
+            case "down":
+                if(spriteNum == 1){
+                    image = down1;
                 }
-            }
-
-            switch(var4) {
-            case 0:
-                ++this.hasKey;
-                this.inventory.add(this.currentKey);
-                this.gp.obj[this.gp.currentMap][var1] = null;
-                this.gp.ui.showMessage("You got a key!");
+                if(spriteNum == 2){
+                    image = down2;
+                }
                 break;
-            case 1:
-                if (this.hasKey > 0) {
-                    this.gp.obj[this.gp.currentMap][var1] = null;
-                    --this.hasKey;
-                    this.inventory.remove(this.currentKey);
-                    this.gp.ui.showMessage("You opened the door!");
-                } else {
-                    this.gp.ui.showMessage("You need a key to open!");
+            case "left":
+                if(spriteNum == 1){
+                    image = left1;
                 }
-            }
+                if(spriteNum == 2){
+                    image = left2;
+                }
+                break;
+            case "right":
+                if(spriteNum == 1){
+                    image = right1;
+                }
+                if(spriteNum == 2){
+                    image = right2;
+                }
+                break;
         }
-
-    }
-
-    public void interactMonster(int var1) {
-        if (var1 != 999) {
-            if (this.gp.keyH.monsterPressed) {
-                GamePanel var10000 = this.gp;
-                Objects.requireNonNull(this.gp);
-                var10000.gameState = 7;
-                this.gp.monster[this.gp.currentMap][var1].monsterSpeak();
-            }
-
-            this.gp.keyH.monsterPressed = false;
+        if(invincible == true){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.30F));
         }
-
-        if (var1 != 999 && !this.invincible) {
-            --this.life;
-            this.invincible = true;
-        }
-
-    }
-
-    public void damageMonster(int var1, int var2) {
-        if (var1 != 999 && !this.gp.monster[this.gp.currentMap][var1].invincible) {
-            int var3 = var2 - this.gp.monster[this.gp.currentMap][var1].defense;
-            if (var3 < 0) {
-                var3 = 0;
-            }
-
-            Entity var10000 = this.gp.monster[this.gp.currentMap][var1];
-            var10000.life -= var3;
-            this.gp.ui.showMessage(var3 + "damage!");
-            this.gp.monster[this.gp.currentMap][var1].invincible = true;
-            if (this.gp.monster[this.gp.currentMap][var1].life <= 0) {
-                this.gp.monster[this.gp.currentMap][var1].dying = true;
-                String var10001 = this.gp.monster[this.gp.currentMap][var1].name;
-                this.gp.ui.showMessage("Killed the " + var10001 + "!");
-            }
-        }
-
-    }
-
-    public void interactNPC(int var1) {
-        if (var1 != 999) {
-            if (this.gp.keyH.enterPressed) {
-                GamePanel var10000 = this.gp;
-                Objects.requireNonNull(this.gp);
-                var10000.gameState = 3;
-                this.gp.npc[this.gp.currentMap][var1].speak();
-            }
-
-            this.gp.keyH.enterPressed = false;
-        }
-
-    }
-
-    public void draw(Graphics2D var1) {
-        BufferedImage var2 = null;
-        String var3 = this.direction;
-        byte var4 = -1;
-        switch(var3.hashCode()) {
-        case 3739:
-            if (var3.equals("up")) {
-                var4 = 0;
-            }
-            break;
-        case 3089570:
-            if (var3.equals("down")) {
-                var4 = 1;
-            }
-            break;
-        case 3317767:
-            if (var3.equals("left")) {
-                var4 = 2;
-            }
-            break;
-        case 108511772:
-            if (var3.equals("right")) {
-                var4 = 3;
-            }
-        }
-
-        switch(var4) {
-        case 0:
-            if (this.spriteNum == 1) {
-                var2 = this.up1;
-            }
-
-            if (this.spriteNum == 2) {
-                var2 = this.up2;
-            }
-            break;
-        case 1:
-            if (this.spriteNum == 1) {
-                var2 = this.down1;
-            }
-
-            if (this.spriteNum == 2) {
-                var2 = this.down2;
-            }
-            break;
-        case 2:
-            if (this.spriteNum == 1) {
-                var2 = this.left1;
-            }
-
-            if (this.spriteNum == 2) {
-                var2 = this.left2;
-            }
-            break;
-        case 3:
-            if (this.spriteNum == 1) {
-                var2 = this.right1;
-            }
-
-            if (this.spriteNum == 2) {
-                var2 = this.right2;
-            }
-        }
-
-        if (this.invincible) {
-            var1.setComposite(AlphaComposite.getInstance(3, 0.3F));
-        }
-
-        var1.drawImage(var2, this.screenX, this.screenY, (ImageObserver)null);
-        var1.setComposite(AlphaComposite.getInstance(3, 1.0F));
+        g2.drawImage(image, screenX, screenY, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
     }
 }
